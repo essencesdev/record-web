@@ -3,8 +3,115 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
+		<link rel="stylesheet" href="/colors.css" />
+		<style>
+			html {
+				height: 100%;
+			}
+
+			body {
+				margin: 0;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				background: var(--bg);
+				color: var(--fg);
+				font-family: Verdana, Geneva, Tahoma, sans-serif;
+			}
+
+			#controls {
+				padding: 18px;
+				max-height: 100px;
+			}
+
+			#media-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: calc(100% - 154px);
+				padding: 18px;
+			}
+
+			#media-container > video {
+				height: 100%;
+				width: 100%;
+				border: 1px solid var(--red-1);
+			}
+
+			#media-container > #downloadable-video {
+				border: 1px solid var(--green-1);
+			}
+
+			/* initial load instructions and stuff */
+			#media-container > #downloadable-video:not([src]) {
+				display: none !important;
+			}
+			#media-container > #downloadable-video:not([src]) + #directions {
+				display: block;
+			}
+			#media-container
+				> :is(
+					#downloadable-video[src],
+					#preview-video[data-recording="true"]
+				)
+				~ #directions {
+				display: none;
+			}
+
+			#media-container > #preview-video[data-recording="true"] {
+				display: block;
+			}
+
+			#media-container
+				> #preview-video[data-recording="true"]
+				+ #downloadable-video {
+				display: none;
+			}
+
+			#media-container > #preview-video[data-recording="false"] {
+				display: none;
+			}
+
+			#media-container
+				> video[data-recording="false"]
+				+ #downloadable-video {
+				display: block;
+			}
+
+			section {
+				margin: 18px;
+				background-color: var(--grey-1);
+				border-radius: 36px;
+			}
+
+			#title {
+				color: var(--green-1);
+				padding-left: 18px;
+			}
+		</style>
 	</head>
 	<body>
+		<h1 id="title">Screen recording through your browser</h1>
+		<section id="controls">
+			<button id="start-recording">Record</button>
+			<button id="stop-recording" disabled>Stop/Save</button>
+			<label>
+				<input type="checkbox" id="record-audio" checked />Audio
+			</label>
+		</section>
+		<section id="media-container">
+			<video id="preview-video" data-recording="false" autoplay></video>
+			<video id="downloadable-video" controls></video>
+			<p id="directions">
+				Click "Record" to start recording. Your browser should prompt
+				you with various settings.
+				<br /><br />
+				When finished, click "Stop/Save" to stop recording and view a
+				preview video that you can download.
+				<br><br>
+				Audio may not work for you.
+			</p>
+		</section>
 		<script type="module" src="main.js"></script>
 	</body>
 </html>
